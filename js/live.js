@@ -1089,14 +1089,11 @@ function on_cc_live_interaction_interval(p, t) {
  * 获取本地流信息
  * */
 function on_cc_live_interaction_local_media(p, stream) {
-    console.log(stream)
-    var binaryData = [];
-    binaryData.push(stream);
     // 视频+音频
     if (p.video) {
         $('#videoInteractio').show();
         var $lv = $('#interactionLocalVideo')[0];
-        $lv.src = URL.createObjectURL(new Blob(binaryData, {type: 'application/octet-stream'})); // 加载流信息
+        $lv.src = URL.createObjectURL(stream); // 加载流信息
         $lv.volume = 0; // 静音URL
     } else {
 
@@ -1108,9 +1105,6 @@ function on_cc_live_interaction_local_media(p, stream) {
  *
  * */
 function on_cc_live_interaction_remote_media(p, chatuser, stream) {
-    console.log(stream)
-    var binaryData = [];
-    binaryData.push(stream);
     if (p.video) {
         $('#livePlayer').replaceWith('<div id="livePlayer"></div>');
 
@@ -1118,12 +1112,12 @@ function on_cc_live_interaction_remote_media(p, chatuser, stream) {
 
         var id = 'interactionRemoteVideo' + chatuser.id;
         $('#videoInteractions').append('<video id="' + id + '" style="height: 100%; width: 100%;" autoplay></video>');
-        $('#' + id)[0].src = URL.createObjectURL(new Blob(binaryData, {type: 'application/octet-stream'}));
+        $('#' + id)[0].src = URL.createObjectURL(stream);
         $('#videoInteraction').hide();
     } else {// 远程音频
         var id = 'interactionRemoteAudio' + chatuser.id;
         $('#audioInteractions').append('<audio id="' + id + '" autoplay controls></audio>');
-        $('#' + id)[0].src = URL.createObjectURL(new Blob(binaryData, {type: 'application/octet-stream'}));
+        $('#' + id)[0].src = URL.createObjectURL(stream);
     }
 }
 
